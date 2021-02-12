@@ -1,0 +1,39 @@
+- La ejecución desde fichero parece que no funciona.
+
+#open integracion.tdd;; me despisté y no indiqué el ;; del final en el manual 
+
+letrec sum:Nat->Nat->Nat = lambda n:Nat. lambda m:Nat. if iszero n then m else succ (sum (pred n) m) in
+letrec prod:Nat->Nat->Nat = lambda n:Nat. lambda m:Nat. if iszero (pred n) then m else sum (prod
+  (pred n) m) m in
+  prod 12 5
+
+letrec sum:Nat->Nat->Nat = lambda n:Nat. lambda m:Nat. if iszero n then m else succ (sum (pred n) m) in letrec prod:Nat->Nat->Nat = lambda n:Nat. lambda m:Nat. if iszero (pred n) then m else sum (prod (pred n) m) m in prod 12 5;;
+
+Copiando el texto del mensaje me da un primer error sintáctico, esto es porque el lexer elimina los caracteres de salto de linea y une dos palabras que no debería, 
+subsanando esto comienza la ejecución y para porque no se está añadiendo al contexto el cuerpo del segundo letrec. quitando de la función exec la inserción de la función recursiva y
+modificando eval1 de esta manera ya funciona.
+
+  | TmLetRec(x, ty , t1, t2) as tm ->
+    addterm ctx x tm;
+    let t2' = eval1 t2 ctx dbg in 
+    let t1' = subst x t1 t2' ctx in  
+      eval1 t1' ctx dbg
+
+>> {​​​​​​​1,{​​​​​​​2,true}​​​​​​​}​​​​​​​;;  
+{​​​​​​​1,{​​​​​​​2,true}​​​​​​​}​​​​​​​ : Nat * Nat * Bool
+
+Sí, es verdad
+
++Has añadido nuevos tipos String, Float y Char pero...
+
+Para los strings la concatenación debería ser sencilla, habría que llegar al último del primer string, en mi caso cambiar
+el It_A_Chain final que contiene los 2 últimos It_A_Code chars y tendría que crear 2 It_A_Chain intermedios que almacenen el carácter y el siguiente
+, el ultimo de esos 2 TmTuple almacenaría como siguiente, en el 2º termino, el primer It_A_Chain del segundo String.
+
+En Floats estuve pensando como implementar la parte de los decimales, me plantee representarlo como numerador denominador
+pero tendría que implementar también las operaciones de multiplicación y división, otra opción es usar una estructura como una Lista o Tuplas para almacenar
+cada cifra decimal como secuencia de naturales cuyo mayor máximo es 9
+y al sumar o restar hay que aplicar el acarreo, pero no me daba tiempo para más, el problema fue que me salte sin querer el punto de Pairs Tuples y Listas,
+me pasé varios días pensando como implementar la parte decimal de los Floats y despues de hacer las tuplas se ve más claro todo.
+
+Para los chars se me ocurrió implementar la comparación, o la concatenación a un string.

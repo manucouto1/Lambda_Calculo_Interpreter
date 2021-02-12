@@ -1,0 +1,2 @@
+x = 0;;
+id_nat = L x:Nat. x;;

@@ -1,0 +1,38 @@
+true
+let x = true in x
+if false then true else false
+0
+succ (succ (succ 0))
+3
+succ (pred 0)
+iszero (pred (succ (succ 0)))
+if iszero 3 then 0 else 1
+iszero true
+if 1 then true else false
+if iszero 3 then 0 else false
+let id = L x.x in id 3
+let id_bool = L x:Bool. x in id_bool 
+let id_bool = L x:Bool. x in id_bool true true
+let id_nat = L x:Nat. x in id_nat 5
+let x = 5 in let id_nat = L x:Nat. x in id_nat x
+letrec sum : Nat -> Nat -> Nat = lambda n : Nat. lambda m : Nat. if iszero n then m else succ (sum (pred n) m) in sum 21 34
+
+let fix = lambda:Nat f.(lambda:Nat x. f (lambda:Nat y. x x y)) (lambda:Nat x. f (lambda:Nat y. x x y)) in 
+let sum = lambda n : Nat. lambda m : Nat. if iszero n then m else succ (sum (pred n) m) in 
+let aux = fix sum in aux 21 34
+
+
+let fix = lambda f.(lambda x. f (lambda y. x x y)) (lambda x. f (lambda y. x x y)) in let sumaux = lambda f. (lambda n. (lambda m. if (iszero n) then m else succ (f (pred n) m))) in let sum = fix sumaux in sum 1 1
+
+let fix = lambda f.(lambda x. f (lambda y. x x y)) (lambda x. f (lambda y. x x y))
+
+x = true
+id = L x : Bool. x
+
+%% Testing Pairs
+
+nat_nat_to_pair = L x:Nat.(L y:Nat. {x,y}))
+nat_nat_to_pair 1 2 -> {1,2}  Funciona
+x = {1,2}
+x.1 -> No functiona
+

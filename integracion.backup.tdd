@@ -1,0 +1,51 @@
+1;;
+1.1;;
+"String";;
+'n';;
+
+{1,2};;
+{1,2,3};; {1,2}.1;; {1,2}.2;;
+
+{l=1, c='c', k=1.03043};;
+
+{1,2.003}.1;; {1,2.003}.2;;
+x = {1,2.003};; x.1;; x.2;;
+
+{1,"String",'c'}.1;; {1,"String",'c'}.2;; {1,"String",'c'}.3;;
+x = {1,"String",'c'};; x.3;; x.2;; x.1;;
+
+{l=1, c='c', k=1.03043}.l;;{l=1, c='c', k=1.03043}.c;;{l=1, c='c', k=1.03043}.k;;
+x = {l=1, c='c', k=1.03043};; x.l;; x.c;; x.k;;
+
+[Nat];; 
+x = [1,2,3,4]:[Nat];;
+
+[String];; 
+x1 = ["String", "S2", "S3"]:[String];;
+
+[Char];; 
+x2 = ['S', 't', 'r', 'i', 'n', 'g']:[Char];;
+
+[Real];; 
+x3 = [1.0004, 3.234, 23.000239]:[Real];;
+
+1::x;; "test"::x1;; 't'::x2;; 1.33434::x3;;
+
+tail x1;; tail x2;; tail x3;;
+head x1;; head x2;; head x3;;
+
+let d = {1,2,4} in d.3;;
+let id_tuple = L x:{Nat * Nat * Nat}. x in (id_tuple ({1,2,3})).3;;
+
+let r = {t=1, s="test", c='c'} in r.s;;
+let id_record = L x:{t:Nat, s:String, c:Char}. x in (id_record ({t=1, s="test", c='c'})).c;;
+
+let l = [1,2,3,4,5]:[Nat] in head (tail (l));;
+let id_list = L x:List Nat. x in head (tail(id_list ([1,2,3,4,5]:[Nat])));;
+
+letrec tailtail: (List Nat) -> (List Nat) = L x:List Nat. if isnil x then x else tailtail (tail (tail x)) in tailtail ([1,2,3,4]:[Nat]);;
+letrec reverse: (List Nat) -> (List Nat) -> (List Nat) = L x:List Nat. L y:List Nat. if isnil x then y else reverse (tail x) ((head x)::y) in reverse ([1,2,3,4]:[Nat]) ([Nat]);;
+
+
+
+
